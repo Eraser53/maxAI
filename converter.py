@@ -4,6 +4,10 @@ def convert_text(file_path):
     # Read the text from the file
     with open(file_path, 'r') as file:
         text = file.read()
+# Read input text from file
+file_path = "corrected_sentence.txt"  # Update with the path to your input file
+    # Convert the text to lowercase
+    lowercase_text = text.lower()
 
     # Convert the text to lowercase
     lowercase_text = text.lower()
