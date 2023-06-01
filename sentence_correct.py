@@ -19,6 +19,16 @@ try:
         
 return len (common)/max(len(bigram1), len(bigram2))
    
-    
+def AutoCorrect(word, database={'etc'}), sim_threshold=0.5):
+  max_sim = 0.0
+  most_sim_word = word
+  
+  for data_word in database:
+    cur_sim = get_similarity_ratio(word, data_word)
+    if cur_sim > max_sim:
+      max_sim = cur_sim
+      max_sim_word = data_word
+      
+return most_sim_word if max_sim>sim_threshold else word
 
       
