@@ -1,41 +1,36 @@
-def create_bigrams(word):
-    return [word[i] + word[i+1] for i in range(len(word)-1)]
+import difflib
 
-def get_similarity_ratio(word1, word2):
-    word1, word2 = word1.lower(), word2.lower()
-    common = []
-    bigram1, bigram2 = create_bigrams(word1), create_bigrams(word2)
-    
-    for i in range(len(bigram1)):
-        try:
-            cmn_elt = bigram2.index(bigram1[i])
-            common.append(bigram1[i])
-        except ValueError:
-            continue
-    
-    return len(common) / max(len(bigram1), len(bigram2))
+def create_bigrams(sentence):
+    return [sentence[i:i+2] for i in range(len(sentence)-1)]
 
-def AutoCorrect(word, database={'etc'}, sim_threshold=0.5):
+def get_sentence_similarity(sentence1, sentence2):
+    sentence1 = sentence1.lower()
+    sentence2 = sentence2.lower()
+    bigrams1 = create_bigrams(sentence1)
+    bigrams2 = create_bigrams(sentence2)
+    matcher = difflib.SequenceMatcher(None, bigrams1, bigrams2)
+    return matcher.ratio()
+
+def auto_correct(sentence, database={'etc'}, sim_threshold=0.5):
     max_sim = 0.0
-    most_sim_word = word
+    most_sim_sentence = sentence
 
-    for data_word in database:
-        cur_sim = get_similarity_ratio(word, data_word)
+    for data_sentence in database:
+        cur_sim = get_sentence_similarity(sentence, data_sentence)
         if cur_sim > max_sim:
             max_sim = cur_sim
-            most_sim_word = data_word
+            most_sim_sentence = data_sentence
 
-    return most_sim_word if max_sim > sim_threshold else word
+    return most_sim_sentence if max_sim > sim_threshold else sentence
 
 # Example usage:
-input_word = input("Enter a word: ")
-corrected_word = AutoCorrect(input_word)
-print("Corrected word:", corrected_word)
+input_sentence = input("Enter a sentence: ")
+corrected_sentence = auto_correct(input_sentence)
+print("Corrected sentence:", corrected_sentence)
 
-# Save the corrected word in a text file
-output_file = "corrected_word.txt"
+# Save the corrected sentence in a text file
+output_file = "corrected_sentence.txt"
 with open(output_file, 'w') as file:
-    file.write(corrected_word)
-print("Corrected word saved in", output_file)
+    file.write(corrected_sentence)
+print("Corrected sentence saved in", output_file)
 
-      
