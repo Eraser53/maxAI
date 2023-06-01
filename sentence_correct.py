@@ -1,1 +1,24 @@
+def create_biagrams(word): 
+  return [word[i] + word[i+1] for i in range(len(word)-1)]
 
+def get_similarity_ratio(word1,word2):
+  word1, word2 = word1.lower(), word2.lower()
+  
+  common = []
+  
+  bigram1, bigram2 = create_bigram(word1), create_bigram(word2)
+
+  for i in range(len(bigram1)):
+
+    # common elt
+try:
+      cmn_elt = bigram2.index(bigram1[i])
+      common.append(bigram1[i])
+      except:
+        continue
+        
+return len (common)/max(len(bigram1), len(bigram2))
+   
+    
+
+      
